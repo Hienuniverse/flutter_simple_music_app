@@ -1,5 +1,7 @@
 # 🎵 Ứng dụng Nghe nhạc Offline Cơ bản (Simple Offline Music Player)
 
+Link video demo: https://drive.google.com/drive/folders/13G_PonR3DBW3e1Ub1rHZul6oVfuQcC6S?usp=sharing
+
 ## 📖 Mô tả Dự án và Tính năng
 Simple Offline Music Player là một ứng dụng nghe nhạc nội bộ (offline) đa nền tảng được xây dựng hoàn toàn bằng Flutter. Ứng dụng tự động quét các file âm thanh trong bộ nhớ máy và mang lại trải nghiệm nghe nhạc mượt mà với giao diện hiện đại (Dark Theme) mang phong cách Spotify.
 
@@ -33,6 +35,10 @@ Simple Offline Music Player là một ứng dụng nghe nhạc nội bộ (offli
 Màn hình chính
 
 <img width="447" height="967" alt="image" src="https://github.com/user-attachments/assets/9c9995e1-3f21-4a49-9583-6b46a9392d84" />
+
+Màn hình phát nhạc hiện tại
+
+<img width="436" height="866" alt="image" src="https://github.com/user-attachments/assets/ea919d5e-57d2-4582-a433-c58c0dc579ff" />
 
 Màn hình chứa các tính năng
 
