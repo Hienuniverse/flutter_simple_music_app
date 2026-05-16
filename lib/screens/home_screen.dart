@@ -8,6 +8,11 @@ import 'package:flutter_simple_offline_music_app/widgets/song_tile.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+//Thêm import các màn hình mới
+import 'package:flutter_simple_offline_music_app/screens/search_screen.dart';
+import 'package:flutter_simple_offline_music_app/screens/playlist_screen.dart';
+import 'package:flutter_simple_offline_music_app/screens/settings_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -60,26 +65,68 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF191414),
+      backgroundColor: const Color(0xFF191414),
+      //THÊM MỚI: Thanh điều hướng Menu (Drawer)
+      drawer: Drawer(
+        backgroundColor: const Color(0xFF282828),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF191414)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.music_note, color: Color(0xFF1DB954), size: 48),
+                  SizedBox(height: 10),
+                  Text('Simple Music', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.library_music, color: Colors.white),
+              title: const Text('Thư viện nhạc', style: TextStyle(color: Colors.white)),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.playlist_play, color: Colors.white),
+              title: const Text('Playlists của tôi', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistScreen()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings, color: Colors.white),
+              title: const Text('Cài đặt', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // App Bar
+            //App Bar đã được chỉnh sửa
             _buildAppBar(),
-            // Content
+            //Content
             Expanded(
               child: _isLoading
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : !_hasPermission
                       ? _buildPermissionDenied()
                       : _songs.isEmpty
                           ? _buildNoSongs()
                           : _buildSongList(),
             ),
-            // Mini Player
+            //Mini Player
             Consumer<AudioProvider>(
               builder: (context, provider, child) {
-                if (provider.currentSong == null) return SizedBox.shrink();
+                if (provider.currentSong == null) return const SizedBox.shrink();
                 return MiniPlayer();
               },
             ),
@@ -91,11 +138,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildAppBar() {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          //Nút bấm mở Drawer điều hướng
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu, color: Colors.white, size: 28),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+          const Text(
             'My Music',
             style: TextStyle(
               color: Colors.white,
@@ -103,10 +157,11 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          //Nút mở màn hình tìm kiếm bài hát
           IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
+            icon: const Icon(Icons.search, color: Colors.white, size: 28),
             onPressed: () {
-              // Navigate to search screen
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
             },
           ),
         ],
@@ -134,24 +189,24 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.music_off, size: 80, color: Colors.grey),
-          SizedBox(height: 20),
-          Text(
+          const Icon(Icons.music_off, size: 80, color: Colors.grey),
+          const SizedBox(height: 20),
+          const Text(
             'Storage Permission Required',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          SizedBox(height: 10),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
             'Please grant storage permission to access music',
             style: TextStyle(color: Colors.grey),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
               await openAppSettings();
             },
-            child: Text('Open Settings'),
+            child: const Text('Open Settings'),
           ),
         ],
       ),
@@ -163,14 +218,14 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.music_note, size: 80, color: Colors.grey),
-          SizedBox(height: 20),
-          Text(
+          const Icon(Icons.music_note, size: 80, color: Colors.grey),
+          const SizedBox(height: 20),
+          const Text(
             'No Music Found',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          SizedBox(height: 10),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
             'Add some music files to your device',
             style: TextStyle(color: Colors.grey),
           ),
